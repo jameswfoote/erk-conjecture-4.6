@@ -1,0 +1,10 @@
+# Lake build output and downloaded dependencies
+.lake/
+
+# Local reproduction outputs (see README)
+local-lean-transcript.txt
+local-additional-results.txt
+
+# Python and macOS artifacts
+__pycache__/
+.DS_Store

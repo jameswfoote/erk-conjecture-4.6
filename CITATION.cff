@@ -1,0 +1,51 @@
+cff-version: 1.2.0
+message: "If you use this work, please cite the Zenodo record below."
+type: software
+title: "ERK Conjecture 4.6: A proof of bistability at all processivity levels in a model of ERK regulation"
+abstract: >-
+  For each prescribed pair of kinase and phosphatase processivities in the open
+  unit square, a single choice of thirteen positive rates and three positive
+  totals supports two distinct positive equilibria, both exponentially stable on
+  the same nine-dimensional stoichiometric class. The package contains the
+  manuscript, a Lean 4 formalization of the main theorem, an exact SageMath
+  certificate, and additional verification scripts.
+authors:
+  - family-names: Foote
+    given-names: James
+    affiliation: University of British Columbia
+    orcid: "https://orcid.org/0009-0004-3841-8020"
+version: 1.0.0
+date-released: "2026-11-26"
+doi: 10.5281/zenodo.24556874
+url: "https://doi.org/10.5281/zenodo.24556874"
+repository-code: "https://github.com/jameswfoote/erk-conjecture-4.6"
+license: CC-BY-4.0
+keywords:
+  - ERK
+  - bistability
+  - processivity
+  - chemical reaction network theory
+  - mathematical biology
+  - dynamical systems
+  - singular perturbation theory
+  - Lean 4
+  - formal verification
+identifiers:
+  - type: doi
+    value: 10.5281/zenodo.24556874
+    description: "Zenodo record, version 1.0.0"
+preferred-citation:
+  type: generic
+  title: "A proof of bistability at all processivity levels in a model of ERK regulation"
+  authors:
+    - family-names: Foote
+      given-names: James
+      affiliation: University of British Columbia
+      orcid: "https://orcid.org/0009-0004-3841-8020"
+  year: 2026
+  month: 11
+  publisher:
+    name: Zenodo
+  version: 1.0.0
+  doi: 10.5281/zenodo.24556874
+  url: "https://doi.org/10.5281/zenodo.24556874"

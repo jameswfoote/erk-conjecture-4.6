@@ -1,0 +1,12 @@
+name = "LabCheck"
+version = "0.1.0"
+defaultTargets = ["ERKProof"]
+
+[[require]]
+name = "mathlib"
+git = "https://github.com/leanprover-community/mathlib4.git"
+rev = "c98ae54af00eaefe79c51b2b278361ca94e59bfb"
+
+[[lean_lib]]
+name = "ERKProof"
+roots = ["Audit", "Bistability", "Common", "Continuation", "EnzymeBlock", "EnzymeGraph", "FastSpectrum", "FirstLift", "Lift", "Model", "PhysicalPositive", "Scalar", "SecondLift", "Singular", "Source", "Target", "Transport"]

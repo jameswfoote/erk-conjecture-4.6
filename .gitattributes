@@ -1,0 +1,2 @@
+# Keep every published file byte-for-byte identical on all platforms (no line-ending conversion).
+* -text

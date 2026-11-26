@@ -1,0 +1,6 @@
+p=999/1000, q=9999/10000, K=1, delta=1/1000000000000, eta=1/1000000000000
+  free S11=0.49999994; right-half-plane directions=0
+p=999/1000, q=9999/10000, K=1048576, delta=1/1000000000000, eta=1/1000000000000
+  free S11=0.0019090870; right-half-plane directions=0
+  free S11=0.50015125; right-half-plane directions=1
+  free S11=0.99808995; right-half-plane directions=0

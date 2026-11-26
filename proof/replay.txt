@@ -1,0 +1,210 @@
+mathlib c98ae54af00eaefe79c51b2b278361ca94e59bfb
+Lean (version 4.25.2, arm64-apple-darwin24.6.0, commit b86e2e5824bcdbfa0e8d02dd97b4c48792a385d1, Release)
+Checking Continuation.lean
+'ERK.Lifting.equilibrium_branch' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Lifting.two_equilibria' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Lifting.schurEquiv_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Lifting.equilibrium_branch_schur' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking FastSpectrum.lean
+'ERK.Fast.quadratic' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Fast.enzyme_det' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Fast.enzyme_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Fast.substrates_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Fast.both_enzyme_blocks' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Model.lean
+
+Checking Scalar.lean
+'ERK.Scalar.two_scalar_sinks' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Scalar.flux_eq_enzyme' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Singular.lean
+'ERK.Singular.eventually_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Singular.hurwitz_of_tendsto' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Lift.lean
+'ERK.Lift.stable_branch' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Lift.schur_on_graph' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Source.lean
+'ERK.Source.reaction_model_eq_equation4' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Source.same_class_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Source.class_dimension' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Transport.lean
+'ERK.Transport.hurwitz_conjugate' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Transport.change_of_coordinates' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking EnzymeBlock.lean
+
+Checking FirstLift.lean
+'ERK.First.two_critical' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.First.fast_directions' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.First.fast_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.First.scalar_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.First.two_sinks' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Target.lean
+'ERK.Target.sink_of_scaled' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.Target.shared_witness' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking EnzymeGraph.lean
+
+Checking PhysicalPositive.lean
+'ERK.Second.physical_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking SecondLift.lean
+'ERK.Second.eta_sink_branch' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Common.lean
+'ERK.common_enzyme_parameter' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Bistability.lean
+'ERK.conjecture_4_6' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checking Audit.lean
+def ERK.Target.PositiveClassSink : ERK.Model.Rates → ERK.Model.Totals → ERK.Model.State → Prop :=
+fun k T x =>
+  (∀ (i : Fin 12), 0 < x i) ∧
+    ERK.Model.totals x = T ∧
+      ERK.Model.rhs k x = 0 ∧
+        ERK.Singular.Hurwitz (ERK.Transport.mat (fderiv ℝ (ERK.Model.field k T) (ERK.Model.project x)))
+def ERK.Singular.Hurwitz.{u_1} : {m : Type u_1} → [Fintype m] → [DecidableEq m] → Matrix m m ℂ → Prop :=
+fun {m} [Fintype m] [DecidableEq m] A => ∀ (z : ℂ), 0 ≤ z.re → (A - z • 1).det ≠ 0
+@ERK.Singular.eventually_hurwitz : ∀ {m : Type u_1} {n : Type u_2} [inst : Fintype m] [inst_1 : Fintype n]
+  [inst_2 : DecidableEq m] [inst_3 : DecidableEq n] (A : Matrix m m ℂ) (B : Matrix m n ℂ) (C : Matrix n m ℂ)
+  (D : Matrix n n ℂ),
+  ERK.Singular.Hurwitz D →
+    ERK.Singular.Hurwitz (A - B * D⁻¹ * C) →
+      ∀ᶠ (v : ERK.Singular.Data m n) in nhds (0, A, B, C, D), 0 < v.1 → ERK.Singular.Hurwitz (ERK.Singular.jacobian v)
+'ERK.Singular.eventually_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.Lift.stable_branch : ∀ {m : Type u_1} {n : Type u_2} [inst : Fintype m] [inst_1 : Fintype n]
+  [inst_2 : DecidableEq m] [inst_3 : DecidableEq n] (H : ℝ × ERK.Lift.Space m n → ERK.Lift.Space m n)
+  (x : ERK.Lift.Space m n),
+  H (0, x) = 0 →
+    ContDiffAt ℝ 1 H (0, x) →
+      ERK.Singular.Hurwitz (ERK.Lift.stateMatrix H (0, x)).toBlocks₂₂ →
+        (have J := ERK.Lift.stateMatrix H (0, x);
+          ERK.Singular.Hurwitz (J.toBlocks₁₁ - J.toBlocks₁₂ * J.toBlocks₂₂⁻¹ * J.toBlocks₂₁)) →
+          ∃ u,
+            u 0 = x ∧
+              ContinuousAt u 0 ∧
+                ∀ᶠ (t : ℝ) in nhdsWithin 0 (Set.Ioi 0),
+                  H (t, u t) = 0 ∧
+                    ERK.Lift.field H t (u t) = 0 ∧
+                      ERK.Singular.Hurwitz (ERK.Lift.matrixOf (fderiv ℝ (ERK.Lift.field H t) (u t)))
+'ERK.Lift.stable_branch' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.Lift.schur_on_graph : ∀ {m : Type u_1} {n : Type u_2} [inst : Fintype m] [inst_1 : Fintype n]
+  [inst_2 : DecidableEq m] [inst_3 : DecidableEq n] (H : ℝ × ERK.Lift.Space m n → ERK.Lift.Space m n)
+  (g : (m → ℝ) → n → ℝ) (R : (m → ℝ) → m → ℝ) (x : m → ℝ),
+  DifferentiableAt ℝ H (0, Sum.elim x (g x)) →
+    DifferentiableAt ℝ g x →
+      DifferentiableAt ℝ R x →
+        (∀ᶠ (y : m → ℝ) in nhds x, H (0, Sum.elim y (g y)) = Sum.elim (R y) 0) →
+          ERK.Singular.Hurwitz (ERK.Lift.stateMatrix H (0, Sum.elim x (g x))).toBlocks₂₂ →
+            have J := ERK.Lift.stateMatrix H (0, Sum.elim x (g x));
+            J.toBlocks₁₁ - J.toBlocks₁₂ * J.toBlocks₂₂⁻¹ * J.toBlocks₂₁ = ERK.Lift.matrixOf (fderiv ℝ R x)
+'ERK.Lift.schur_on_graph' depends on axioms: [propext, Classical.choice, Quot.sound]
+ERK.Scalar.two_scalar_sinks (p q : ℝ) (hp : 0 < p) (hp' : p < 1) (hq : 0 < q) :
+  have s := (1 + p) / (2 * q);
+  ∃ K i k,
+    0 < K ∧
+      0 < i ∧
+        i < k ∧
+          k < 1 ∧
+            ERK.Scalar.flux p q s K i = 0 ∧
+              ERK.Scalar.flux p q s K k = 0 ∧
+                deriv (ERK.Scalar.flux p q s K) i < 0 ∧ deriv (ERK.Scalar.flux p q s K) k < 0
+'ERK.Scalar.two_scalar_sinks' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.First.fast_hurwitz : ∀ {p q K s b : ℝ},
+  0 < p →
+    0 < K →
+      0 < s →
+        b ∈ Set.Ioo 0 1 →
+          ∀ (c d : ℝ),
+            ERK.Singular.Hurwitz
+              (ERK.Lift.stateMatrix (ERK.First.constraints p q K s) (0, ERK.First.state b c d)).toBlocks₂₂
+'ERK.First.fast_hurwitz' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.First.two_sinks : ∀ {p q : ℝ},
+  0 < p →
+    p < 1 →
+      0 < q →
+        q < 1 →
+          have s := (1 + p) / (2 * q);
+          ∃ K,
+            0 < K ∧
+              ∀ᶠ (δ : ℝ) in nhdsWithin 0 (Set.Ioi 0),
+                ∃ u v,
+                  u (Sum.inl 0) < v (Sum.inl 0) ∧
+                    ∀ y ∈ {u, v},
+                      0 < ERK.First.remaining δ y ∧
+                        (∀ (i : ERK.First.I3), 0 < y i) ∧
+                          ERK.First.dynamics p q K s δ y = 0 ∧
+                            ERK.Singular.Hurwitz (ERK.Lift.matrixOf (fderiv ℝ (ERK.First.dynamics p q K s δ) y))
+'ERK.First.two_sinks' depends on axioms: [propext, Classical.choice, Quot.sound]
+ERK.Fast.enzyme_det (a b c g : ℝ) (z : ℂ) :
+  (z • 1 - ERK.Fast.enzyme a b c g).det = (z + ↑g) * (z * z + ↑(a + 1 + b + c + g) * z + ↑((a + 1) * g + b + c + a))
+'ERK.Fast.enzyme_det' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.Second.graph_fast_stable : ∀ {p q K δ s : ℝ},
+  0 < K →
+    0 < δ →
+      ∀ (y : ERK.Model.M → ℝ),
+        0 < ERK.Model.freeA (ERK.Model.toSlow δ y) →
+          (∀ (i : ERK.Model.M), 0 < y i) →
+            ERK.Singular.Hurwitz
+              (ERK.Lift.stateMatrix (ERK.Model.etaEq p q K δ s) (0, ERK.Model.graphPoint K δ s y)).toBlocks₂₂
+'ERK.Second.graph_fast_stable' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.Second.eta_sink_branch : ∀ {p q K δ s : ℝ},
+  0 < K →
+    0 < δ →
+      ∀ (y : ERK.Model.M → ℝ),
+        0 < ERK.Model.freeA (ERK.Model.toSlow δ y) →
+          (∀ (i : ERK.Model.M), 0 < y i) →
+            ERK.Model.scaledReduced p q K δ s y = 0 →
+              ERK.Singular.Hurwitz (ERK.Lift.matrixOf (fderiv ℝ (ERK.Model.scaledReduced p q K δ s) y)) →
+                ∃ u,
+                  u 0 = ERK.Model.graphPoint K δ s y ∧
+                    ContinuousAt u 0 ∧
+                      ∀ᶠ (η : ℝ) in nhdsWithin 0 (Set.Ioi 0),
+                        ERK.Model.etaEq p q K δ s (η, u η) = 0 ∧
+                          ERK.Model.etaDynamics p q K δ s η (u η) = 0 ∧
+                            ERK.Singular.Hurwitz
+                              (ERK.Lift.matrixOf (fderiv ℝ (ERK.Model.etaDynamics p q K δ s η) (u η)))
+'ERK.Second.eta_sink_branch' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.common_enzyme_parameter : ∀ {p q K δ s : ℝ},
+  0 < p →
+    p < 1 →
+      0 < q →
+        q < 1 →
+          0 < K →
+            0 < δ →
+              0 < s →
+                ∀ (u v : ℝ → ERK.Model.I → ℝ),
+                  ContinuousAt u 0 →
+                    ContinuousAt v 0 →
+                      u 0 ≠ v 0 →
+                        (∀ (i : Fin 12), 0 < ERK.Second.normalized s δ (0, u 0) i) →
+                          (∀ (i : Fin 12), 0 < ERK.Second.normalized s δ (0, v 0) i) →
+                            (∀ᶠ (η : ℝ) in nhdsWithin 0 (Set.Ioi 0),
+                                ERK.Model.etaDynamics p q K δ s η (u η) = 0 ∧
+                                  ERK.Singular.Hurwitz
+                                    (ERK.Transport.mat (fderiv ℝ (ERK.Model.etaDynamics p q K δ s η) (u η)))) →
+                              (∀ᶠ (η : ℝ) in nhdsWithin 0 (Set.Ioi 0),
+                                  ERK.Model.etaDynamics p q K δ s η (v η) = 0 ∧
+                                    ERK.Singular.Hurwitz
+                                      (ERK.Transport.mat (fderiv ℝ (ERK.Model.etaDynamics p q K δ s η) (v η)))) →
+                                ERK.Target.BistabilityAt p q
+'ERK.common_enzyme_parameter' depends on axioms: [propext, Classical.choice, Quot.sound]
+@ERK.Model.eta_conjugacy : ∀ {p q K δ s η : ℝ},
+  δ ≠ 0 →
+    η ≠ 0 →
+      ∀ (x : ERK.Model.I → ℝ),
+        ERK.Model.field (ERK.Model.prescribedRates p q K δ) ![1, η, η * s] (ERK.Model.chartMap δ η x) =
+          η • ERK.Model.chartMap δ η (ERK.Model.etaDynamics p q K δ s η x)
+'ERK.Model.eta_conjugacy' depends on axioms: [propext, Classical.choice, Quot.sound]
+ERK.Source.reaction_model_eq_equation4 (k : ERK.Model.Rates) (x : ERK.Model.State) :
+  ERK.Model.rhs k x = ERK.Source.equation4 k x
+'ERK.Source.reaction_model_eq_equation4' depends on axioms: [propext, Classical.choice, Quot.sound]
+ERK.Source.same_class_iff (x y : ERK.Model.State) :
+  ERK.Model.totals x = ERK.Model.totals y ↔ ∃ j, y - x = ERK.Model.balance j
+'ERK.Source.same_class_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+ERK.Source.class_dimension : Module.finrank ℝ ERK.Model.Chart = 9
+'ERK.Source.class_dimension' depends on axioms: [propext, Classical.choice, Quot.sound]
+ERK.conjecture_4_6 (p q : ℝ) (hp : 0 < p) (hp' : p < 1) (hq : 0 < q) (hq' : q < 1) :
+  ∃ k T,
+    (∀ (i : Fin 13), 0 < k i) ∧
+      (∀ (i : Fin 3), 0 < T i) ∧
+        ERK.Model.kinaseProcessivity k = p ∧
+          ERK.Model.phosphataseProcessivity k = q ∧
+            ∃ x y, x ≠ y ∧ ERK.Target.PositiveClassSink k T x ∧ ERK.Target.PositiveClassSink k T y
+'ERK.conjecture_4_6' depends on axioms: [propext, Classical.choice, Quot.sound]
+'ERK.conjecture_4_6' depends on axioms: [propext, Classical.choice, Quot.sound]
+Checked all 17 project modules.
